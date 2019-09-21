@@ -11,15 +11,15 @@ var command = process.argv[2];
 
 switch (command) {
     case "concert-this":
-        concert();
+        concertThis();
         break;
 
     case "spotify-this-song":
-        spotify();
+        spotifyThis();
         break;
 
     case "movie-this":
-        movie();
+        movieThis();
         break;
 
     case "do-what-it-says":
@@ -27,7 +27,8 @@ switch (command) {
         break;
 }
 
-function concert() {
+function concertThis() {
+
     var artist = process.argv.slice(3).join("+");
     var queryURl = "https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp";
 
@@ -46,6 +47,7 @@ function concert() {
         console.log("-----------------------------------------------");
 
     }).catch(function (error) {
+
         if (error.response) {
             // The request was made and the server responded with a status code
             // that falls out of the range of 2xx
@@ -64,6 +66,42 @@ function concert() {
             console.log("Error", error.message);
         }
         console.log(error.config);
+
+    });
+
+}
+
+
+function spotifyThis() {
+
+    var song = process.argv.slice(3).join(" ");
+
+    spotify.search({ type: 'track', query: song }, function (err, data) {
+        
+        if (err) {
+            return console.log('Error occurred: ' + err);
+        }
+
+        var dataArray = data.tracks.items;
+
+        for (var i in dataArray) {
+
+            var artists = [];
+
+            for (var j in dataArray[i].artists) {
+                artists.push(dataArray[i].artists[j].name);
+            }
+
+            console.log("-----------------------------------------------");
+            console.log("Artist(s): " + artists.join(", "));
+            console.log("Song: " + dataArray[i].name);
+            console.log("Preview Link: " + dataArray[i].preview_url);
+            console.log("Album: " + dataArray[i].album.name);
+
+        }
+
+        console.log("-----------------------------------------------");
+
     });
 
 }
