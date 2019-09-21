@@ -16,5 +16,10 @@
   "bugs": {
     "url": "https://github.com/SunnyTong2019/liri-node-app/issues"
   },
-  "homepage": "https://github.com/SunnyTong2019/liri-node-app#readme"
+  "homepage": "https://github.com/SunnyTong2019/liri-node-app#readme",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "dotenv": "^8.1.0",
+    "node-spotify-api": "^1.1.1"
+  }
 }
