@@ -5,35 +5,40 @@ var keys = require("./keys.js");
 var Spotify = require('node-spotify-api');
 var fs = require('fs');
 var axios = require('axios');
-const { Console } = require('console');
 
 var spotify = new Spotify(keys.spotify);
 
-const output = fs.createWriteStream('./log.txt');
-const logger = new Console( { stdout: output } );
+var logStream = fs.createWriteStream('log.txt', { 'flags': 'a' }); // use {'flags': 'a'} to append and {'flags': 'w'} to erase and write a new file
 
 var command = process.argv[2];
 
+// determine which command user has typed and then call the corresponding function
 switch (command) {
     case "concert-this":
         var artist = process.argv.slice(3).join("+");
+        logStream.write("Command: " + process.argv[2] + " " + process.argv.slice(3).join(" ") + '\n');
+        logStream.write("Output: " + '\n');
         concertThis(artist);
-        logger.log('Command: ' + process.argv.slice(2));
         break;
 
     case "spotify-this-song":
         var song = process.argv.slice(3).join(" ");
         if (!song) { song = "The Sign"; }
+        logStream.write("Command: " + process.argv[2] + " " + process.argv.slice(3).join(" ") + '\n');
+        logStream.write("Output: " + '\n');
         spotifyThis(song);
         break;
 
     case "movie-this":
         var movie = process.argv.slice(3).join("+");
         if (!movie) { movie = "Mr. Nobody"; }
+        logStream.write("Command: " + process.argv[2] + " " + process.argv.slice(3).join(" ") + '\n');
+        logStream.write("Output: " + '\n');
         movieThis(movie);
         break;
 
     case "do-what-it-says":
+        logStream.write("Command: " + process.argv[2] + '\n');
         random();
         break;
 }
@@ -55,15 +60,20 @@ function concertThis(artist) {
                 console.log("Venue Location: " + dataArray[i].venue.city + ", " + dataArray[i].venue.country);
                 console.log("Venue Date: " + moment(dataArray[i].datetime, "YYYY-MM-DD").format("MM/DD/YYYY"));
 
+                logStream.write("-----------------------------------------------" + '\n');
+                logStream.write("Venue Name: " + dataArray[i].venue.name + '\n');
+                logStream.write("Venue Location: " + dataArray[i].venue.city + ", " + dataArray[i].venue.country + '\n');
+                logStream.write("Venue Date: " + moment(dataArray[i].datetime, "YYYY-MM-DD").format("MM/DD/YYYY") + '\n');
+
             }
 
             console.log("-----------------------------------------------");
+            logStream.write("-----------------------------------------------" + '\n\n\n');
 
         }).catch(function (error) {
 
             if (error.response) {
-                // The request was made and the server responded with a status code
-                // that falls out of the range of 2xx
+                // The request was made and the server responded with a status code that falls out of the range of 2xx
                 console.log("---------------Data---------------");
                 console.log(error.response.data);
                 console.log("---------------Status---------------");
@@ -109,8 +119,16 @@ function spotifyThis(song) {
                 console.log("Preview Link: " + dataArray[i].preview_url);
                 console.log("Album: " + dataArray[i].album.name);
 
+
+                logStream.write("-----------------------------------------------" + '\n');
+                logStream.write("Artist(s): " + artists.join(", ") + '\n');
+                logStream.write("Song: " + dataArray[i].name + '\n');
+                logStream.write("Preview Link: " + dataArray[i].preview_url + '\n');
+                logStream.write("Album: " + dataArray[i].album.name + '\n');
+
             }
             console.log("-----------------------------------------------");
+            logStream.write("-----------------------------------------------" + '\n\n\n');
         });
 }
 
@@ -133,12 +151,22 @@ function movieThis(movie) {
             console.log("Actors: " + response.data.Actors);
             console.log("-----------------------------------------------");
 
+            logStream.write("-----------------------------------------------" + '\n');
+            logStream.write("Movie Title: " + response.data.Title + '\n');
+            logStream.write("Year: " + response.data.Year + '\n');
+            logStream.write("IMDB Rating: " + response.data.imdbRating + '\n');
+            logStream.write("Rotten Tomatoes Rating: " + response.data.Ratings.filter(item => item.Source === "Rotten Tomatoes")[0].Value + '\n');
+            logStream.write("Country: " + response.data.Country + '\n');
+            logStream.write("Language: " + response.data.Language + '\n');
+            logStream.write("Plot: " + response.data.Plot + '\n');
+            logStream.write("Actors: " + response.data.Actors + '\n');
+            logStream.write("-----------------------------------------------" + '\n\n\n');
+
         })
         .catch(function (error) {
 
             if (error.response) {
-                // The request was made and the server responded with a status code
-                // that falls out of the range of 2xx
+                // The request was made and the server responded with a status code that falls out of the range of 2xx
                 console.log("---------------Data---------------");
                 console.log(error.response.data);
                 console.log("---------------Status---------------");
@@ -165,28 +193,37 @@ function random() {
             return console.log(err);
         }
 
+        logStream.write("random.txt: " + data + '\n');
+        logStream.write("Output: " + '\n');
+
         var dataArr = data.split(",");
 
         var command = dataArr[0];
 
         switch (command) {
             case "concert-this":
-                concertThis(dataArr[1]);
+                    if (dataArr[1]) { concertThis(dataArr[1]); }
+                    else { 
+                        console.log("Error: Missing required request parameters: [artistname]");
+                        logStream.log("Error: Missing required request parameters: [artistname]");
+                        logStream.write("-----------------------------------------------" + '\n\n\n');
+                    }
                 break;
 
             case "spotify-this-song":
-                spotifyThis(dataArr[1]);
+                if (dataArr[1]) { spotifyThis(dataArr[1]); }
+                else { spotifyThis("The Sign"); }
                 break;
 
             case "movie-this":
-                movieThis(dataArr[1]);
+                if (dataArr[1]) { movieThis(dataArr[1]); }
+                else { movieThis("Mr. Nobody"); }
                 break;
         }
 
     })
 
 }
-
 
 
 
