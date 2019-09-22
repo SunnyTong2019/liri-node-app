@@ -3,23 +3,34 @@ require("dotenv").config();
 var moment = require('moment');
 var keys = require("./keys.js");
 var Spotify = require('node-spotify-api');
+var fs = require('fs');
 var axios = require('axios');
+const { Console } = require('console');
 
 var spotify = new Spotify(keys.spotify);
+
+const output = fs.createWriteStream('./log.txt');
+const logger = new Console( { stdout: output } );
 
 var command = process.argv[2];
 
 switch (command) {
     case "concert-this":
-        concertThis();
+        var artist = process.argv.slice(3).join("+");
+        concertThis(artist);
+        logger.log('Command: ' + process.argv.slice(2));
         break;
 
     case "spotify-this-song":
-        spotifyThis();
+        var song = process.argv.slice(3).join(" ");
+        if (!song) { song = "The Sign"; }
+        spotifyThis(song);
         break;
 
     case "movie-this":
-        movieThis();
+        var movie = process.argv.slice(3).join("+");
+        if (!movie) { movie = "Mr. Nobody"; }
+        movieThis(movie);
         break;
 
     case "do-what-it-says":
@@ -28,9 +39,8 @@ switch (command) {
 }
 
 
-function concertThis() {
+function concertThis(artist) {
 
-    var artist = process.argv.slice(3).join("+");
     var queryURL = "https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp";
 
     axios.get(queryURL).then(
@@ -73,11 +83,7 @@ function concertThis() {
 }
 
 
-function spotifyThis() {
-
-    var song = process.argv.slice(3).join(" ");
-
-    if (!song) { song = "The Sign"; }
+function spotifyThis(song) {
 
     spotify.search({ type: 'track', query: song },
 
@@ -109,9 +115,7 @@ function spotifyThis() {
 }
 
 
-function movieThis() {
-    var movie = process.argv.slice(3).join("+");
-    if (!movie) { movie = "Mr. Nobody"; }
+function movieThis(movie) {
     var queryURL = "http://www.omdbapi.com/?t=" + movie + "&y=&plot=short&apikey=trilogy";
 
     axios.get(queryURL).then(
@@ -152,3 +156,37 @@ function movieThis() {
             console.log(error.config);
         });
 }
+
+
+function random() {
+
+    fs.readFile("random.txt", "utf8", function (err, data) {
+        if (err) {
+            return console.log(err);
+        }
+
+        var dataArr = data.split(",");
+
+        var command = dataArr[0];
+
+        switch (command) {
+            case "concert-this":
+                concertThis(dataArr[1]);
+                break;
+
+            case "spotify-this-song":
+                spotifyThis(dataArr[1]);
+                break;
+
+            case "movie-this":
+                movieThis(dataArr[1]);
+                break;
+        }
+
+    })
+
+}
+
+
+
+
