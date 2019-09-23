@@ -8,6 +8,7 @@ var axios = require('axios');
 
 var spotify = new Spotify(keys.spotify);
 
+// writeStream for outputting data to log.txt file
 var logStream = fs.createWriteStream('log.txt', { 'flags': 'a' }); // use {'flags': 'a'} to append and {'flags': 'w'} to erase and write a new file
 
 var command = process.argv[2];
@@ -18,7 +19,14 @@ switch (command) {
         var artist = process.argv.slice(3).join("+");
         logStream.write("Command: " + process.argv[2] + " " + process.argv.slice(3).join(" ") + '\n');
         logStream.write("Output: " + '\n');
-        concertThis(artist);
+        if (!artist) { // if no artist is provided, log an error
+            console.log("Error: Missing required request parameters: [artistname]");
+            logStream.write("-----------------------------------------------" + '\n');
+            logStream.write("Error: Missing required request parameters: [artistname]" + '\n');
+            logStream.write("-----------------------------------------------" + '\n\n\n');
+        } else {
+            concertThis(artist);
+        }
         break;
 
     case "spotify-this-song":
@@ -45,8 +53,9 @@ switch (command) {
 
 
 function concertThis(artist) {
-
-    var queryURL = "https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp";
+    
+    // using .trim() in case user types white spaces at the beginning and the end, Ex. node liri.js concert-this "  lady gaga   "
+    var queryURL = "https://rest.bandsintown.com/artists/" + artist.trim() + "/events?app_id=codingbootcamp";
 
     axios.get(queryURL).then(
 
@@ -134,6 +143,7 @@ function spotifyThis(song) {
 
 
 function movieThis(movie) {
+
     var queryURL = "http://www.omdbapi.com/?t=" + movie + "&y=&plot=short&apikey=trilogy";
 
     axios.get(queryURL).then(
@@ -199,15 +209,18 @@ function random() {
         var dataArr = data.split(",");
 
         var command = dataArr[0];
-
+        
+        // determine which command in the random.txt file and then call the corresponding function
         switch (command) {
             case "concert-this":
-                    if (dataArr[1]) { concertThis(dataArr[1]); }
-                    else { 
-                        console.log("Error: Missing required request parameters: [artistname]");
-                        logStream.log("Error: Missing required request parameters: [artistname]");
-                        logStream.write("-----------------------------------------------" + '\n\n\n');
-                    }
+                //use .replace() to remove the quotes in the "artist" string when random.txt is concert-this,"lady gaga"
+                if (dataArr[1]) { concertThis(dataArr[1].replace(/['"]+/g, '')); } 
+                else {
+                    console.log("Error: Missing required request parameters: [artistname]");
+                    logStream.write("-----------------------------------------------" + '\n');
+                    logStream.write("Error: Missing required request parameters: [artistname]" + '\n');
+                    logStream.write("-----------------------------------------------" + '\n\n\n');
+                }
                 break;
 
             case "spotify-this-song":
