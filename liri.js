@@ -53,7 +53,7 @@ switch (command) {
 
 
 function concertThis(artist) {
-    
+
     // using .trim() in case user types white spaces at the beginning and the end, Ex. node liri.js concert-this "  lady gaga   "
     var queryURL = "https://rest.bandsintown.com/artists/" + artist.trim() + "/events?app_id=codingbootcamp";
 
@@ -172,8 +172,7 @@ function movieThis(movie) {
             logStream.write("Actors: " + response.data.Actors + '\n');
             logStream.write("-----------------------------------------------" + '\n\n\n');
 
-        })
-        .catch(function (error) {
+        }).catch(function (error) {
 
             if (error.response) {
                 // The request was made and the server responded with a status code that falls out of the range of 2xx
@@ -209,12 +208,12 @@ function random() {
         var dataArr = data.split(",");
 
         var command = dataArr[0];
-        
+
         // determine which command in the random.txt file and then call the corresponding function
         switch (command) {
             case "concert-this":
                 //use .replace() to remove the quotes in the "artist" string when random.txt is concert-this,"lady gaga"
-                if (dataArr[1]) { concertThis(dataArr[1].replace(/['"]+/g, '')); } 
+                if (dataArr[1]) { concertThis(dataArr[1].replace(/['"]+/g, '')); }
                 else {
                     console.log("Error: Missing required request parameters: [artistname]");
                     logStream.write("-----------------------------------------------" + '\n');
