@@ -93,7 +93,6 @@ function concertThis(artist) {
                 logStream.write("No Venue found for this artist!" + '\n');
                 logStream.write("-----------------------------------------------" + '\n\n\n');
             }
-
         }).catch(function (error) {
 
             if (error.response) {
@@ -144,17 +143,20 @@ function spotifyThis(song) {
                 // then use .join to make variable "artists" array to a string seperated with ", "
                 console.log("Artist(s): " + artists.join(", "));
                 console.log("Song: " + dataArray[i].name);
+
                 if (dataArray[i].preview_url) { console.log("Preview Link: " + dataArray[i].preview_url); }
                 else { console.log("Preview Link: None"); }
+
                 console.log("Album: " + dataArray[i].album.name);
 
                 logStream.write("-----------------------------------------------" + '\n');
                 logStream.write("Artist(s): " + artists.join(", ") + '\n');
                 logStream.write("Song: " + dataArray[i].name + '\n');
+
                 if (dataArray[i].preview_url) { logStream.write("Preview Link: " + dataArray[i].preview_url + '\n'); }
                 else { logStream.write("Preview Link: None" + '\n'); }
-                logStream.write("Album: " + dataArray[i].album.name + '\n');
 
+                logStream.write("Album: " + dataArray[i].album.name + '\n');
             }
             console.log("-----------------------------------------------");
             logStream.write("-----------------------------------------------" + '\n\n\n');
