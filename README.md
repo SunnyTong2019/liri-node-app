@@ -29,6 +29,7 @@ node liri.js concert-this <artist/band name here>
    * Venue Name
    * Venue location
    * Venue Date (in format "MM/DD/YYYY")
+ 
 
 ```
 node liri.js spotify-this-song <song name here>
@@ -41,6 +42,7 @@ node liri.js spotify-this-song <song name here>
    * Album
 
  * If no song is provided, then by default it will search the song "The Sign" (by Ace of Base).
+
 
 ```
 node liri.js movie-this <movie name here>
@@ -58,22 +60,25 @@ node liri.js movie-this <movie name here>
 
  * If no movie is provided, then by default it will search the movie 'Mr. Nobody’.
 
+
 ```
 node liri.js do-what-it-says
 ```
- * This will take the text inside of random.txt file and then use it to call one of LIRI's commands. Ex. If the text inside of random.txt is 
+ * This will take the text inside of random.txt file and then use it to call one of LIRI's commands. 
+   Ex. If the text inside of random.txt is 
 
-```
-spotify-this-song,”I Want it That Way" 
-```
+   ```
+   spotify-this-song,”I Want it That Way" 
+   ```
 
-Then it will run spotify-this-song command for the song “I Want it That Way".
+   Then it will run spotify-this-song command for the song “I Want it That Way".
 
 
 ## Screenshots and Video
 Video Demo: https://drive.google.com/file/d/1CGq-4ENClsgNZzD1Z6nX9tpuTGByxKWH/view?usp=sharing
 
-Screenshots:
+Screenshots:    
+
 ![concert-this](images/concert-this.png)
 
 ![spotify-this-song](images/spotify-this-song.png)
