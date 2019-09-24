@@ -67,6 +67,7 @@ function concertThis(artist) {
                 console.log("-----------------------------------------------");
                 console.log("Venue Name: " + dataArray[i].venue.name);
                 console.log("Venue Location: " + dataArray[i].venue.city + ", " + dataArray[i].venue.country);
+                // use moment to format the date
                 console.log("Venue Date: " + moment(dataArray[i].datetime, "YYYY-MM-DD").format("MM/DD/YYYY"));
 
                 logStream.write("-----------------------------------------------" + '\n');
@@ -118,16 +119,19 @@ function spotifyThis(song) {
 
                 var artists = [];
 
+                // "artists" property in each dataArray item is an array of objects
+                // each object has several properties but I only need the "name" property, so I push the "name" to new variable "artists"
+                // so variable "artists" is an array with all the artist names
                 for (var j in dataArray[i].artists) {
                     artists.push(dataArray[i].artists[j].name);
                 }
 
                 console.log("-----------------------------------------------");
+                // then use .join to make variable "artists" array to a string seperated with ", "
                 console.log("Artist(s): " + artists.join(", "));
                 console.log("Song: " + dataArray[i].name);
                 console.log("Preview Link: " + dataArray[i].preview_url);
                 console.log("Album: " + dataArray[i].album.name);
-
 
                 logStream.write("-----------------------------------------------" + '\n');
                 logStream.write("Artist(s): " + artists.join(", ") + '\n');
@@ -154,6 +158,9 @@ function movieThis(movie) {
             console.log("Movie Title: " + response.data.Title);
             console.log("Year: " + response.data.Year);
             console.log("IMDB Rating: " + response.data.imdbRating);
+            // response.data.Ratings is an array of objects
+            // use .filter() to get an array filled with only the object for Rotten Tomatoes Rating
+            // then use [0] to access the object in the new array then use .Value to access the property
             console.log("Rotten Tomatoes Rating: " + response.data.Ratings.filter(item => item.Source === "Rotten Tomatoes")[0].Value);
             console.log("Country: " + response.data.Country);
             console.log("Language: " + response.data.Language);
@@ -212,7 +219,9 @@ function random() {
         // determine which command in the random.txt file and then call the corresponding function
         switch (command) {
             case "concert-this":
-                //use .replace() to remove the quotes in the "artist" string when random.txt is concert-this,"lady gaga"
+                // use .replace() to remove the quotes in the "artist" string when random.txt is concert-this,"taylor swift"
+                // otherwise the queryURL will look like this and the API will respone with an error saying 'The artist was not found':
+                // https://rest.bandsintown.com/artists/"taylor swift"/events?app_id=codingbootcamp
                 if (dataArr[1]) { concertThis(dataArr[1].replace(/['"]+/g, '')); }
                 else {
                     console.log("Error: Missing required request parameters: [artistname]");
