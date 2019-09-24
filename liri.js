@@ -63,22 +63,33 @@ function concertThis(artist) {
 
             var dataArray = response.data;
 
-            for (var i in dataArray) {
+            if (dataArray.length > 0) { // if venue(s) found for the artist
+                for (var i in dataArray) {
+                    console.log("-----------------------------------------------");
+                    console.log("Venue Name: " + dataArray[i].venue.name);
+                    console.log("Venue Location: " + dataArray[i].venue.city + ", " + dataArray[i].venue.country);
+                    // use moment to format the date
+                    console.log("Venue Date: " + moment(dataArray[i].datetime, "YYYY-MM-DD").format("MM/DD/YYYY"));
+
+                    logStream.write("-----------------------------------------------" + '\n');
+                    logStream.write("Venue Name: " + dataArray[i].venue.name + '\n');
+                    logStream.write("Venue Location: " + dataArray[i].venue.city + ", " + dataArray[i].venue.country + '\n');
+                    logStream.write("Venue Date: " + moment(dataArray[i].datetime, "YYYY-MM-DD").format("MM/DD/YYYY") + '\n');
+
+                }
+
                 console.log("-----------------------------------------------");
-                console.log("Venue Name: " + dataArray[i].venue.name);
-                console.log("Venue Location: " + dataArray[i].venue.city + ", " + dataArray[i].venue.country);
-                // use moment to format the date
-                console.log("Venue Date: " + moment(dataArray[i].datetime, "YYYY-MM-DD").format("MM/DD/YYYY"));
+                logStream.write("-----------------------------------------------" + '\n\n\n');
+
+            } else { // if no venue for the artist
+                console.log("-----------------------------------------------");
+                console.log("No Venue found for this artist!");
+                console.log("-----------------------------------------------");
 
                 logStream.write("-----------------------------------------------" + '\n');
-                logStream.write("Venue Name: " + dataArray[i].venue.name + '\n');
-                logStream.write("Venue Location: " + dataArray[i].venue.city + ", " + dataArray[i].venue.country + '\n');
-                logStream.write("Venue Date: " + moment(dataArray[i].datetime, "YYYY-MM-DD").format("MM/DD/YYYY") + '\n');
-
+                logStream.write("No Venue found for this artist!" + '\n');
+                logStream.write("-----------------------------------------------" + '\n\n\n');
             }
-
-            console.log("-----------------------------------------------");
-            logStream.write("-----------------------------------------------" + '\n\n\n');
 
         }).catch(function (error) {
 
@@ -130,13 +141,15 @@ function spotifyThis(song) {
                 // then use .join to make variable "artists" array to a string seperated with ", "
                 console.log("Artist(s): " + artists.join(", "));
                 console.log("Song: " + dataArray[i].name);
-                console.log("Preview Link: " + dataArray[i].preview_url);
+                if (dataArray[i].preview_url) { console.log("Preview Link: " + dataArray[i].preview_url); }
+                else { console.log("Preview Link: None"); }
                 console.log("Album: " + dataArray[i].album.name);
 
                 logStream.write("-----------------------------------------------" + '\n');
                 logStream.write("Artist(s): " + artists.join(", ") + '\n');
                 logStream.write("Song: " + dataArray[i].name + '\n');
-                logStream.write("Preview Link: " + dataArray[i].preview_url + '\n');
+                if (dataArray[i].preview_url) { logStream.write("Preview Link: " + dataArray[i].preview_url + '\n'); }
+                else { logStream.write("Preview Link: None" + '\n'); }
                 logStream.write("Album: " + dataArray[i].album.name + '\n');
 
             }
