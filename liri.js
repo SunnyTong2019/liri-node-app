@@ -20,7 +20,10 @@ switch (command) {
         logStream.write("Command: " + process.argv[2] + " " + process.argv.slice(3).join(" ") + '\n');
         logStream.write("Output: " + '\n');
         if (!artist) { // if no artist is provided, log an error
+            console.log("-----------------------------------------------");
             console.log("Error: Missing required request parameters: [artistname]");
+            console.log("-----------------------------------------------");
+
             logStream.write("-----------------------------------------------" + '\n');
             logStream.write("Error: Missing required request parameters: [artistname]" + '\n');
             logStream.write("-----------------------------------------------" + '\n\n\n');
@@ -237,7 +240,10 @@ function random() {
                 // https://rest.bandsintown.com/artists/"taylor swift"/events?app_id=codingbootcamp
                 if (dataArr[1]) { concertThis(dataArr[1].replace(/['"]+/g, '')); }
                 else {
+                    console.log("-----------------------------------------------");
                     console.log("Error: Missing required request parameters: [artistname]");
+                    console.log("-----------------------------------------------");
+
                     logStream.write("-----------------------------------------------" + '\n');
                     logStream.write("Error: Missing required request parameters: [artistname]" + '\n');
                     logStream.write("-----------------------------------------------" + '\n\n\n');

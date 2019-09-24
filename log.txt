@@ -1,0 +1,168 @@
+Command: concert-this Taylor Swift
+Output: 
+-----------------------------------------------
+Venue Name: Werchter Boutique
+Venue Location: Rotselaar, Belgium
+Venue Date: 06/20/2020
+-----------------------------------------------
+Venue Name: Waldbühne Berlin
+Venue Location: Berlin, Germany
+Venue Date: 06/24/2020
+-----------------------------------------------
+Venue Name: Oslo Sommertid
+Venue Location: Oslo, Norway
+Venue Date: 06/26/2020
+-----------------------------------------------
+Venue Name: Roskilde Festival
+Venue Location: Roskilde, Denmark
+Venue Date: 07/01/2020
+-----------------------------------------------
+Venue Name: Open’er Festival
+Venue Location: Powiat Pucki, Poland
+Venue Date: 07/03/2020
+-----------------------------------------------
+Venue Name: Festival de Nîmes
+Venue Location: Nimes, France
+Venue Date: 07/05/2020
+-----------------------------------------------
+Venue Name: NOS Alive
+Venue Location: Algés, Portugal
+Venue Date: 07/09/2020
+-----------------------------------------------
+Venue Name: Allianz Parque
+Venue Location: Sao Paulo, Brazil
+Venue Date: 07/18/2020
+-----------------------------------------------
+Venue Name: Lover Fest West
+Venue Location: Los Angeles, United States
+Venue Date: 07/25/2020
+-----------------------------------------------
+Venue Name: Lover Fest West
+Venue Location: Los Angeles, United States
+Venue Date: 07/26/2020
+-----------------------------------------------
+Venue Name: Lover Fest East
+Venue Location: Foxborough, United States
+Venue Date: 07/31/2020
+-----------------------------------------------
+Venue Name: Lover Fest East
+Venue Location: Foxborough, United States
+Venue Date: 08/01/2020
+-----------------------------------------------
+
+
+Command: concert-this Lady Gaga
+Output: 
+-----------------------------------------------
+Venue Name: LADY GAGA ENIGMA
+Venue Location: Las Vegas, United States
+Venue Date: 10/17/2019
+-----------------------------------------------
+Venue Name: LADY GAGA ENIGMA
+Venue Location: Las Vegas, United States
+Venue Date: 10/19/2019
+-----------------------------------------------
+Venue Name: LADY GAGA JAZZ & PIANO
+Venue Location: Las Vegas, United States
+Venue Date: 10/20/2019
+-----------------------------------------------
+Venue Name: LADY GAGA ENIGMA
+Venue Location: Las Vegas, United States
+Venue Date: 10/23/2019
+-----------------------------------------------
+Venue Name: LADY GAGA ENIGMA
+Venue Location: Las Vegas, United States
+Venue Date: 10/25/2019
+-----------------------------------------------
+Venue Name: LADY GAGA JAZZ & PIANO
+Venue Location: Las Vegas, United States
+Venue Date: 10/26/2019
+-----------------------------------------------
+Venue Name: LADY GAGA ENIGMA
+Venue Location: Las Vegas, United States
+Venue Date: 10/31/2019
+-----------------------------------------------
+Venue Name: LADY GAGA ENIGMA
+Venue Location: Las Vegas, United States
+Venue Date: 11/02/2019
+-----------------------------------------------
+Venue Name: LADY GAGA JAZZ & PIANO
+Venue Location: Las Vegas, United States
+Venue Date: 11/03/2019
+-----------------------------------------------
+Venue Name: LADY GAGA ENIGMA
+Venue Location: Las Vegas, United States
+Venue Date: 11/06/2019
+-----------------------------------------------
+Venue Name: LADY GAGA ENIGMA
+Venue Location: Las Vegas, United States
+Venue Date: 11/08/2019
+-----------------------------------------------
+Venue Name: LADY GAGA JAZZ & PIANO
+Venue Location: Las Vegas, United States
+Venue Date: 11/09/2019
+-----------------------------------------------
+Venue Name: LADY GAGA ENIGMA
+Venue Location: Las Vegas, United States
+Venue Date: 12/28/2019
+-----------------------------------------------
+Venue Name: LADY GAGA ENIGMA
+Venue Location: Las Vegas, United States
+Venue Date: 12/30/2019
+-----------------------------------------------
+Venue Name: LADY GAGA JAZZ & PIANO
+Venue Location: Las Vegas, United States
+Venue Date: 12/31/2019
+-----------------------------------------------
+Venue Name: LADY GAGA ENIGMA
+Venue Location: Las Vegas, United States
+Venue Date: 04/30/2020
+-----------------------------------------------
+Venue Name: LADY GAGA ENIGMA
+Venue Location: Las Vegas, United States
+Venue Date: 05/02/2020
+-----------------------------------------------
+Venue Name: LADY GAGA JAZZ & PIANO
+Venue Location: Las Vegas, United States
+Venue Date: 05/03/2020
+-----------------------------------------------
+Venue Name: LADY GAGA JAZZ & PIANO
+Venue Location: Las Vegas, United States
+Venue Date: 05/07/2020
+-----------------------------------------------
+Venue Name: LADY GAGA ENIGMA
+Venue Location: Las Vegas, United States
+Venue Date: 05/09/2020
+-----------------------------------------------
+Venue Name: LADY GAGA JAZZ & PIANO
+Venue Location: Las Vegas, United States
+Venue Date: 05/10/2020
+-----------------------------------------------
+Venue Name: LADY GAGA ENIGMA
+Venue Location: Las Vegas, United States
+Venue Date: 05/13/2020
+-----------------------------------------------
+Venue Name: LADY GAGA ENIGMA
+Venue Location: Las Vegas, United States
+Venue Date: 05/15/2020
+-----------------------------------------------
+Venue Name: LADY GAGA JAZZ & PIANO
+Venue Location: Las Vegas, United States
+Venue Date: 05/16/2020
+-----------------------------------------------
+
+
+Command: concert-this Ed Sheeran
+Output: 
+-----------------------------------------------
+No Venue found for this artist!
+-----------------------------------------------
+
+
+Command: concert-this 
+Output: 
+-----------------------------------------------
+Error: Missing required request parameters: [artistname]
+-----------------------------------------------
+
+
