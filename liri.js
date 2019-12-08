@@ -23,10 +23,8 @@ switch (command) {
         break;
 
     case "spotify-this-song":
-        var song = process.argv.slice(3).join(" ");
-        if (!song) { song = "The Sign"; }
         logStream.write("Command: " + process.argv[2] + " " + process.argv.slice(3).join(" ") + "\nOutput: \n");
-        spotifyThis(song);
+        spotifyThis(process.argv.slice(3).join(" "));
         break;
 
     case "movie-this":
@@ -105,6 +103,8 @@ function concertThis(artist) {
 
 
 function spotifyThis(song) {
+
+    if (!song) { song = "The Sign"; }
 
     spotify.search({ type: 'track', query: song },
 
@@ -234,8 +234,7 @@ function random() {
                 break;
 
             case "spotify-this-song":
-                if (dataArr[1]) { spotifyThis(dataArr[1]); }
-                else { spotifyThis("The Sign"); }
+                spotifyThis(dataArr[1]);
                 break;
 
             case "movie-this":
