@@ -28,10 +28,8 @@ switch (command) {
         break;
 
     case "movie-this":
-        var movie = process.argv.slice(3).join("+");
-        if (!movie) { movie = "Mr. Nobody"; }
         logStream.write("Command: " + process.argv[2] + " " + process.argv.slice(3).join(" ") + "\nOutput: \n");
-        movieThis(movie);
+        movieThis(process.argv.slice(3).join("+"));
         break;
 
     case "do-what-it-says":
@@ -155,6 +153,8 @@ function spotifyThis(song) {
 
 function movieThis(movie) {
 
+    if (!movie) { movie = "Mr. Nobody"; }
+
     var queryURL = "http://www.omdbapi.com/?t=" + movie + "&y=&plot=short&apikey=trilogy";
 
     axios.get(queryURL).then(
@@ -238,8 +238,7 @@ function random() {
                 break;
 
             case "movie-this":
-                if (dataArr[1]) { movieThis(dataArr[1]); }
-                else { movieThis("Mr. Nobody"); }
+                movieThis(dataArr[1]);
                 break;
         }
 
