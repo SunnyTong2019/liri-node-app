@@ -12,6 +12,7 @@ var spotify = new Spotify(keys.spotify);
 var logStream = fs.createWriteStream('log.txt', { 'flags': 'a' }); // use {'flags': 'a'} to append and {'flags': 'w'} to erase and write a new file
 
 var command = process.argv[2];
+var textDivider = "-----------------------------------------------------------\n";
 
 // determine which command user has typed and then call the corresponding function
 switch (command) {
@@ -20,9 +21,7 @@ switch (command) {
         logStream.write("Command: " + process.argv[2] + " " + process.argv.slice(3).join(" ") + '\n');
         logStream.write("Output: " + '\n');
         if (!artist) { // if no artist is provided, log an error
-            console.log("-----------------------------------------------");
-            console.log("Error: Missing required request parameters: [artistname]");
-            console.log("-----------------------------------------------");
+            console.log(textDivider + "Error: Missing required request parameters: [artistname]\n" + textDivider);
 
             logStream.write("-----------------------------------------------" + '\n');
             logStream.write("Error: Missing required request parameters: [artistname]" + '\n');
@@ -68,11 +67,11 @@ function concertThis(artist) {
 
             if (dataArray.length > 0) { // if venue(s) found for the artist
                 for (var i in dataArray) {
-                    console.log("-----------------------------------------------");
-                    console.log("Venue Name: " + dataArray[i].venue.name);
-                    console.log("Venue Location: " + dataArray[i].venue.city + ", " + dataArray[i].venue.country);
-                    // use moment to format the date
-                    console.log("Venue Date: " + moment(dataArray[i].datetime, "YYYY-MM-DD").format("MM/DD/YYYY"));
+                    console.log(textDivider + 
+                        "Venue Name: " + dataArray[i].venue.name + "\n" + 
+                        "Venue Location: " + dataArray[i].venue.city + ", " + dataArray[i].venue.country + "\n" + 
+                        // use moment to format the date
+                        "Venue Date: " + moment(dataArray[i].datetime, "YYYY-MM-DD").format("MM/DD/YYYY"));
 
                     logStream.write("-----------------------------------------------" + '\n');
                     logStream.write("Venue Name: " + dataArray[i].venue.name + '\n');
@@ -81,14 +80,12 @@ function concertThis(artist) {
 
                 }
 
-                console.log("-----------------------------------------------");
+                console.log(textDivider);
                 logStream.write("-----------------------------------------------" + '\n\n\n');
 
             } else { // if no venue for the artist
-                console.log("-----------------------------------------------");
-                console.log("No Venue found for this artist!");
-                console.log("-----------------------------------------------");
-
+                console.log(textDivider + "No Venue found for this artist!\n" + textDivider);
+                
                 logStream.write("-----------------------------------------------" + '\n');
                 logStream.write("No Venue found for this artist!" + '\n');
                 logStream.write("-----------------------------------------------" + '\n\n\n');
@@ -139,10 +136,10 @@ function spotifyThis(song) {
                     artists.push(dataArray[i].artists[j].name);
                 }
 
-                console.log("-----------------------------------------------");
-                // then use .join to make variable "artists" array to a string seperated with ", "
-                console.log("Artist(s): " + artists.join(", "));
-                console.log("Song: " + dataArray[i].name);
+                console.log(textDivider + 
+                            // then use .join to make variable "artists" array to a string seperated with ", "
+                            "Artist(s): " + artists.join(", ") + "\n" + 
+                            "Song: " + dataArray[i].name);
 
                 if (dataArray[i].preview_url) { console.log("Preview Link: " + dataArray[i].preview_url); }
                 else { console.log("Preview Link: None"); }
@@ -158,7 +155,7 @@ function spotifyThis(song) {
 
                 logStream.write("Album: " + dataArray[i].album.name + '\n');
             }
-            console.log("-----------------------------------------------");
+            console.log(textDivider);
             logStream.write("-----------------------------------------------" + '\n\n\n');
         });
 }
@@ -172,19 +169,20 @@ function movieThis(movie) {
 
         function (response) {
 
-            console.log("-----------------------------------------------");
-            console.log("Movie Title: " + response.data.Title);
-            console.log("Year: " + response.data.Year);
-            console.log("IMDB Rating: " + response.data.imdbRating);
-            // response.data.Ratings is an array of objects
-            // use .filter() to get an array filled with only the object for Rotten Tomatoes Rating
-            // then use [0] to access the object in the new array then use .Value to access the property
-            console.log("Rotten Tomatoes Rating: " + response.data.Ratings.filter(item => item.Source === "Rotten Tomatoes")[0].Value);
-            console.log("Country: " + response.data.Country);
-            console.log("Language: " + response.data.Language);
-            console.log("Plot: " + response.data.Plot);
-            console.log("Actors: " + response.data.Actors);
-            console.log("-----------------------------------------------");
+            console.log(
+              textDivider + 
+              "Movie Title: " + response.data.Title + "\n" +
+              "Year: " + response.data.Year + "\n" +
+              "IMDB Rating: " + response.data.imdbRating + "\n" +
+              // response.data.Ratings is an array of objects
+              // use .filter() to get an array filled with only the object for Rotten Tomatoes Rating
+              // then use [0] to access the object in the new array then use .Value to access the property
+              "Rotten Tomatoes Rating: " + response.data.Ratings.filter(item => item.Source === "Rotten Tomatoes")[0].Value + "\n" +
+              "Country: " + response.data.Country + "\n" +
+              "Language: " + response.data.Language + "\n" +
+              "Plot: " + response.data.Plot + "\n" +
+              "Actors: " + response.data.Actors + "\n" +
+              textDivider);
 
             logStream.write("-----------------------------------------------" + '\n');
             logStream.write("Movie Title: " + response.data.Title + '\n');
@@ -242,9 +240,7 @@ function random() {
                 // https://rest.bandsintown.com/artists/"taylor swift"/events?app_id=codingbootcamp
                 if (dataArr[1]) { concertThis(dataArr[1].replace(/['"]+/g, '')); }
                 else {
-                    console.log("-----------------------------------------------");
-                    console.log("Error: Missing required request parameters: [artistname]");
-                    console.log("-----------------------------------------------");
+                    console.log(textDivider + "Error: Missing required request parameters: [artistname]\n" + textDivider);
 
                     logStream.write("-----------------------------------------------" + '\n');
                     logStream.write("Error: Missing required request parameters: [artistname]" + '\n');
