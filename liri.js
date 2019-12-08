@@ -13,19 +13,16 @@ var logStream = fs.createWriteStream('log.txt', { 'flags': 'a' }); // use {'flag
 
 var command = process.argv[2];
 var textDivider = "-----------------------------------------------------------\n";
+var commandDivider = "-----------------------------------------------------------\n\n\n";
 
 // determine which command user has typed and then call the corresponding function
 switch (command) {
     case "concert-this":
         var artist = process.argv.slice(3).join("+");
-        logStream.write("Command: " + process.argv[2] + " " + process.argv.slice(3).join(" ") + '\n');
-        logStream.write("Output: " + '\n');
+        logStream.write("Command: " + process.argv[2] + " " + process.argv.slice(3).join(" ") + "\nOutput: \n");
         if (!artist) { // if no artist is provided, log an error
             console.log(textDivider + "Error: Missing required request parameters: [artistname]\n" + textDivider);
-
-            logStream.write("-----------------------------------------------" + '\n');
-            logStream.write("Error: Missing required request parameters: [artistname]" + '\n');
-            logStream.write("-----------------------------------------------" + '\n\n\n');
+            logStream.write(textDivider + "Error: Missing required request parameters: [artistname]\n" + commandDivider);
         } else {
             concertThis(artist);
         }
@@ -34,16 +31,14 @@ switch (command) {
     case "spotify-this-song":
         var song = process.argv.slice(3).join(" ");
         if (!song) { song = "The Sign"; }
-        logStream.write("Command: " + process.argv[2] + " " + process.argv.slice(3).join(" ") + '\n');
-        logStream.write("Output: " + '\n');
+        logStream.write("Command: " + process.argv[2] + " " + process.argv.slice(3).join(" ") + "\nOutput: \n");
         spotifyThis(song);
         break;
 
     case "movie-this":
         var movie = process.argv.slice(3).join("+");
         if (!movie) { movie = "Mr. Nobody"; }
-        logStream.write("Command: " + process.argv[2] + " " + process.argv.slice(3).join(" ") + '\n');
-        logStream.write("Output: " + '\n');
+        logStream.write("Command: " + process.argv[2] + " " + process.argv.slice(3).join(" ") + "\nOutput: \n");
         movieThis(movie);
         break;
 
@@ -73,22 +68,19 @@ function concertThis(artist) {
                         // use moment to format the date
                         "Venue Date: " + moment(dataArray[i].datetime, "YYYY-MM-DD").format("MM/DD/YYYY"));
 
-                    logStream.write("-----------------------------------------------" + '\n');
-                    logStream.write("Venue Name: " + dataArray[i].venue.name + '\n');
-                    logStream.write("Venue Location: " + dataArray[i].venue.city + ", " + dataArray[i].venue.country + '\n');
-                    logStream.write("Venue Date: " + moment(dataArray[i].datetime, "YYYY-MM-DD").format("MM/DD/YYYY") + '\n');
+                    logStream.write(textDivider + 
+                        "Venue Name: " + dataArray[i].venue.name + "\n" + 
+                        "Venue Location: " + dataArray[i].venue.city + ", " + dataArray[i].venue.country + "\n" + 
+                        "Venue Date: " + moment(dataArray[i].datetime, "YYYY-MM-DD").format("MM/DD/YYYY") + "\n");
 
                 }
 
                 console.log(textDivider);
-                logStream.write("-----------------------------------------------" + '\n\n\n');
+                logStream.write(commandDivider);
 
             } else { // if no venue for the artist
                 console.log(textDivider + "No Venue found for this artist!\n" + textDivider);
-                
-                logStream.write("-----------------------------------------------" + '\n');
-                logStream.write("No Venue found for this artist!" + '\n');
-                logStream.write("-----------------------------------------------" + '\n\n\n');
+                logStream.write(textDivider + "No Venue found for this artist!\n" + commandDivider);
             }
         }).catch(function (error) {
 
@@ -146,9 +138,10 @@ function spotifyThis(song) {
 
                 console.log("Album: " + dataArray[i].album.name);
 
-                logStream.write("-----------------------------------------------" + '\n');
-                logStream.write("Artist(s): " + artists.join(", ") + '\n');
-                logStream.write("Song: " + dataArray[i].name + '\n');
+                logStream.write(textDivider + 
+                    // then use .join to make variable "artists" array to a string seperated with ", "
+                    "Artist(s): " + artists.join(", ") + "\n" + 
+                    "Song: " + dataArray[i].name + "\n");
 
                 if (dataArray[i].preview_url) { logStream.write("Preview Link: " + dataArray[i].preview_url + '\n'); }
                 else { logStream.write("Preview Link: None" + '\n'); }
@@ -156,7 +149,7 @@ function spotifyThis(song) {
                 logStream.write("Album: " + dataArray[i].album.name + '\n');
             }
             console.log(textDivider);
-            logStream.write("-----------------------------------------------" + '\n\n\n');
+            logStream.write(commandDivider);
         });
 }
 
@@ -184,16 +177,17 @@ function movieThis(movie) {
               "Actors: " + response.data.Actors + "\n" +
               textDivider);
 
-            logStream.write("-----------------------------------------------" + '\n');
-            logStream.write("Movie Title: " + response.data.Title + '\n');
-            logStream.write("Year: " + response.data.Year + '\n');
-            logStream.write("IMDB Rating: " + response.data.imdbRating + '\n');
-            logStream.write("Rotten Tomatoes Rating: " + response.data.Ratings.filter(item => item.Source === "Rotten Tomatoes")[0].Value + '\n');
-            logStream.write("Country: " + response.data.Country + '\n');
-            logStream.write("Language: " + response.data.Language + '\n');
-            logStream.write("Plot: " + response.data.Plot + '\n');
-            logStream.write("Actors: " + response.data.Actors + '\n');
-            logStream.write("-----------------------------------------------" + '\n\n\n');
+            logStream.write(
+                textDivider + 
+                "Movie Title: " + response.data.Title + "\n" +
+                "Year: " + response.data.Year + "\n" +
+                "IMDB Rating: " + response.data.imdbRating + "\n" +
+                "Rotten Tomatoes Rating: " + response.data.Ratings.filter(item => item.Source === "Rotten Tomatoes")[0].Value + "\n" +
+                "Country: " + response.data.Country + "\n" +
+                "Language: " + response.data.Language + "\n" +
+                "Plot: " + response.data.Plot + "\n" +
+                "Actors: " + response.data.Actors + "\n" +
+                commandDivider);
 
         }).catch(function (error) {
 
@@ -225,8 +219,7 @@ function random() {
             return console.log(err);
         }
 
-        logStream.write("random.txt: " + data + '\n');
-        logStream.write("Output: " + '\n');
+        logStream.write("random.txt: " + data + "\nOutput: \n");
 
         var dataArr = data.split(",");
 
@@ -241,10 +234,7 @@ function random() {
                 if (dataArr[1]) { concertThis(dataArr[1].replace(/['"]+/g, '')); }
                 else {
                     console.log(textDivider + "Error: Missing required request parameters: [artistname]\n" + textDivider);
-
-                    logStream.write("-----------------------------------------------" + '\n');
-                    logStream.write("Error: Missing required request parameters: [artistname]" + '\n');
-                    logStream.write("-----------------------------------------------" + '\n\n\n');
+                    logStream.write(textDivider + "Error: Missing required request parameters: [artistname]\n" + commandDivider);
                 }
                 break;
 
