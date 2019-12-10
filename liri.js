@@ -136,7 +136,6 @@ function spotifyThis(song) {
                 console.log("Album: " + dataArray[i].album.name);
 
                 logStream.write(textDivider +
-                    // then use .join to make variable "artists" array to a string seperated with ", "
                     "Artist(s): " + artists.join(", ") + "\n" +
                     "Song: " + dataArray[i].name + "\n");
 
@@ -241,9 +240,7 @@ function random() {
                 movieThis(dataArr[1]);
                 break;
         }
-
     })
-
 }
 
 
